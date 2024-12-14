@@ -1,27 +1,33 @@
-import BackButton from '@/components/BackButton';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import { Metadata } from 'next';
-import Image from 'next/image';
+import BackButton from "@/components/BackButton";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: 'Recipe | Vintage Vittles',
-  description: 'View recipe details',
+  title: "Recipe | Vintage Vittles",
+  description: "View recipe details",
 };
 
 async function getRecipe(id: string) {
-  const url = id === 'random' ? 'https://www.themealdb.com/api/json/v1/1/random.php' : `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const url =
+    id === "random"
+      ? "https://www.themealdb.com/api/json/v1/1/random.php"
+      : `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
   const res = await fetch(url);
   const data = await res.json();
   return data.meals?.[0];
 }
 
-export default async function RecipePage({ params }: { params: { id: string } }) {
+export default async function RecipePage(props: {
+  params: Promise<{ id: string }>;
+}) {
+  const params = await props.params;
   const recipe = await getRecipe(params.id);
 
   const ingredients = Object.keys(recipe)
-    .filter(key => key.startsWith('strIngredient') && recipe[key])
-    .map(key => {
+    .filter((key) => key.startsWith("strIngredient") && recipe[key])
+    .map((key) => {
       const index = key.slice(13);
       return `${recipe[key]} - ${recipe[`strMeasure${index}`]}`;
     });
@@ -33,7 +39,10 @@ export default async function RecipePage({ params }: { params: { id: string } })
         <div className="mb-4">
           <BackButton />
         </div>
-        <section className="nes-container with-title" style={{ backgroundColor: 'var(--cream)' }}>
+        <section
+          className="nes-container with-title"
+          style={{ backgroundColor: "var(--cream)" }}
+        >
           <h1 className="title nes-text is-primary">{recipe.strMeal}</h1>
           <div className="grid md:grid-cols-2 gap-8">
             <div>

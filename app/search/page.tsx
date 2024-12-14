@@ -1,24 +1,27 @@
-import BackButton from '@/components/BackButton';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
-
+import BackButton from "@/components/BackButton";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: 'Search Results | Vintage Vittles',
-  description: 'Find your favorite recipes',
+  title: "Search Results | Vintage Vittles",
+  description: "Find your favorite recipes",
 };
 
 async function searchMeals(query: string) {
-  const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`);
+  const res = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`
+  );
   const data = await res.json();
   return data.meals || [];
 }
 
-export default async function SearchResults({ searchParams }: { searchParams: { q: string } }) {
-  const query = searchParams.q || '';
+export default async function SearchResults(props: {
+  searchParams: Promise<{ q: string }>;
+}) {
+  const query = (await props.searchParams).q || "";
   const meals = await searchMeals(query);
 
   return (
@@ -28,7 +31,9 @@ export default async function SearchResults({ searchParams }: { searchParams: { 
         <BackButton />
       </div>
       <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="nes-text is-primary text-3xl mb-4">Search Results for "{query}"</h1>
+        <h1 className="nes-text is-primary text-3xl mb-4">
+          Search Results for "{query}"
+        </h1>
         {meals.length === 0 ? (
           <p>No results found. Try another search term.</p>
         ) : (
@@ -54,4 +59,3 @@ export default async function SearchResults({ searchParams }: { searchParams: { 
     </div>
   );
 }
-
