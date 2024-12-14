@@ -3,19 +3,76 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --mint-green: #98ff98;
+  --cream: #f5e6d3;
+  --light-pink: #ffd1dc;
+  --text-color: #000000;
+  --background-color: #ffffff;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font-family: var(--font-courier-prime), monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-press-start-2p), cursive;
+}
+
+button, .nes-btn, .card-title {
+  font-family: var(--font-vt323), monospace;
+}
+
+.nes-container {
+  background-color: var(--cream);
+}
+
+.nes-container.is-dark {
+  background-color: var(--mint-green);
+  color: var(--text-color);
+}
+
+.nes-btn {
+  background-color: var(--light-pink);
+}
+
+.nes-btn.is-primary {
+  background-color: var(--mint-green);
+  color: var(--text-color);
+}
+
+.nes-input {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Custom scrollbar for retro feel */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+  border: 1px solid var(--text-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mint-green);
+  border: 1px solid var(--text-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--light-pink);
+}
+
+.retro-card {
+  border: 2px solid var(--text-color);
+  box-shadow: 4px 4px 0px var(--text-color);
+  transition: all 0.2s ease-in-out;
+}
+
+.retro-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--text-color);
 }
